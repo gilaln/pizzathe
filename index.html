@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizzaria La Casa</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f5f5f5;
+            font-family: 'Times New Roman', Times, serif;
+            background-image: url('https://example.com/path-to-your-image.jpg'); /* Substitua pela URL da imagem desejada */
+            background-size: cover;
+            background-position: center;
+        }
+        .header, .footer {
+            background-color: #000000;
+            color: white;
+        }
+        .nav-link {
+            transition: font-size 0.3s;
+        }
+        .nav-link:hover {
+            font-size: 1.2em;
+        }
+        .section {
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            border-radius: 5px;
+        }
+        .section1 {
+            background-color: #008000;
+            color: white;
+        }
+        .section2 {
+            background-color: #ffffff;
+            color: black;
+        }
+        .section3 {
+            background-color: #ff0000;
+            color: white;
+        }
+        #contatoPopup {
+            display: none;
+            position: absolute;
+            background-color: white;
+            padding: 10px;
+            border: 1px solid black;
+            z-index: 1000;
+            border-radius: 5px;
+        }
+        #sobrePopup {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border: 1px solid black;
+            z-index: 1001;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header class="header p-3">
+        <div class="container">
+            <h1 class="text-center">PIZZARIA LA CASA</h1>
+            <nav class="nav justify-content-center">
+                <a class="nav-link text-white" href="#">Home</a>
+                <a class="nav-link text-white" href="#" id="sobre">Sobre</a>
+                <a class="nav-link text-white" href="#" id="contato">Contato</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mt-4">
+        <div class="section section1 text-center">
+            <h2>PROMOÇÕES IMPERDÍVEIS!</h2>
+            <p>Aproveite nossas ofertas exclusivas de pizzas.</p>
+            <ul class="list-unstyled">
+                <li>🍕 Mussarela | <strong>R$ 44,99</strong></li>
+                <li>🍕 Calabresa | <strong>R$ 44,99</strong></li>
+                <li>🍕 Frango c/ Catupiry | <strong>R$ 44,99</strong></li>
+            </ul>
+        </div>
+
+        <div class="section section2 text-center">
+            <h2>BEBA COM ESTILO!</h2>
+            <p>Refresque-se com nossas deliciosas bebidas.</p>
+            <ul class="list-unstyled">
+                <li>🥤 Suco Jarra | <strong>R$ 19,90</strong></li>
+                <li>🥤 Refrigerante Lata | <strong>R$ 5,00</strong></li>
+                <li>💧 Água Mineral | <strong>R$ 3,00</strong></li>
+            </ul>
+        </div>
+
+        <div class="section section3 text-center">
+            <h2>SOBREMESAS PARA ADOÇAR SEU DIA!</h2>
+            <p>Finalize sua refeição com uma de nossas deliciosas opções.</p>
+            <ul class="list-unstyled">
+                <li>🍮 Pudim | <strong>R$ 12,00</strong></li>
+                <li>🍫 Mousse de Chocolate | <strong>R$ 10,00</strong></li>
+                <li>🍦 Sorvete | <strong>R$ 8,00</strong></li>
+            </ul>
+        </div>
+    </main>
+
+    <footer class="footer p-3">
+        <div class="container text-center">
+            <p>© <span id="year"></span> Pizzaria La Casa</p>
+            <p>Estado: <span id="estado"></span></p>
+            <p>📸 Instagram: <a href="https://instagram.com/lacasa_The" class="text-white">@lacasa_The</a></p>
+        </div>
+    </footer>
+
+    <div id="sobrePopup">
+        <h4>Sobre a Pizzaria</h4>
+        <p>A Pizzaria La Casa foi fundada em 1972, ano de lançamento do filme Poderoso Chefão no Brasil. Um lugar onde a tradição e o sabor se encontram!</p>
+        <button class="btn btn-secondary" onclick="closeSobrePopup()">Fechar</button>
+    </div>
+
+    <div id="contatoPopup">
+        <h4>Contato</h4>
+        <p>Instagram: <a href="https://instagram.com/lacasa_The" class="text-dark">@lacasa_The</a></p>
+        <p>Número: (86) 9 97971-1568</p>
+    </div>
+
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Função para obter o estado do usuário
+        function getEstado() {
+            fetch('https://ipapi.co/json/')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('estado').textContent = data.region;
+                })
+                .catch(error => {
+                    console.error('Erro ao obter o estado:', error);
+                    document.getElementById('estado').textContent = 'Desconhecido';
+                });
+        }
+
+        // Funções para o popup de Sobre
+        document.getElementById('sobre').addEventListener('mouseover', () => {
+            document.getElementById('sobrePopup').style.display = 'block';
+        });
+
+        document.getElementById('sobre').addEventListener('mouseout', () => {
+            document.getElementById('sobrePopup').style.display = 'none';
+        });
+
+        function closeSobrePopup() {
+            document.getElementById('sobrePopup').style.display = 'none';
+        }
+
+        // Funções para o popup de Contato
+        document.getElementById('contato').addEventListener('mouseover', (event) => {
+            const popup = document.getElementById('contatoPopup');
+            popup.style.display = 'block';
+            popup.style.top = event.clientY + 20 + 'px';
+            popup.style.left = event.clientX + 'px';
+        });
+
+        document.getElementById('contato').addEventListener('mouseout', () => {
+            document.getElementById('contatoPopup').style.display = 'none';
+        });
+
+        getEstado();
+    </script>
+</body>
+</html>
